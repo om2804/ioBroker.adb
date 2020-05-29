@@ -1,0 +1,99 @@
+{
+    "common": {
+        "name": "adb",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Android Debug Bridge",
+        "titleLang": {
+            "en": "Android Debug Bridge",
+            "de": "Android Debug Bridge",
+            "ru": "Android Debug Bridge",
+            "pt": "Ponte de depuração do Android",
+            "nl": "Android Debug Bridge",
+            "fr": "Pont de débogage Android",
+            "it": "Android Debug Bridge",
+            "es": "Puente de depuración de Android",
+            "pl": "Android Debug Bridge",
+            "zh-cn": "Android调试桥"
+        },
+        "desc": {
+            "en": "Android Debug Bridge",
+            "de": "Android Debug Bridge",
+            "ru": "Android Debug Bridge",
+            "pt": "Ponte de depuração do Android",
+            "nl": "Android Debug Bridge",
+            "fr": "Pont de débogage Android",
+            "it": "Android Debug Bridge",
+            "es": "Puente de depuración de Android",
+            "pl": "Android Debug Bridge",
+            "zh-cn": "Android调试桥"
+        },
+        "authors": [
+            "om2804 <om2804@mail.ru>"
+        ],
+        "keywords": [
+            "ioBroker",
+            "adb",
+            "android"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "adb.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/om2804/ioBroker.adb/master/admin/adb.png",
+        "readme": "https://github.com/om2804/ioBroker.adb/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "compact": true,
+        "materialize": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "adbHostOption": "localhost",
+        "adbPortOption": "5037",
+        "devices": []
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
+}

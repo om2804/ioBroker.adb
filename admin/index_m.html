@@ -1,0 +1,132 @@
+<html>
+
+<head>
+
+    <!-- Load ioBroker scripts and styles-->
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+    <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+    <!-- Load our own files -->
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="words.js"></script>
+
+    <script type="text/javascript">
+        var devices = [];
+        // This will be called by the admin adapter when the settings page loads
+        function load(settings, onChange) {
+            // example: select elements with id=key and class=value and insert value
+            if (!settings) return;
+            $('.value').each(function () {
+                var $key = $(this);
+                var id = $key.attr('id');
+                if ($key.attr('type') === 'checkbox') {
+                    // do not call onChange direct, because onChange could expect some arguments
+                    $key.prop('checked', settings[id])
+                        .on('change', () => onChange())
+                        ;
+                } else {
+                    // do not call onChange direct, because onChange could expect some arguments
+                    $key.val(settings[id])
+                        .on('change', () => onChange())
+                        .on('keyup', () => onChange())
+                        ;
+                }
+            });
+
+            
+           
+
+            onChange(false);
+            // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+            if (M) M.updateTextFields();
+
+            devices = settings.devices || [];
+            values2table('devices', devices, onChange);
+        }
+
+        // This will be called by the admin adapter when the user presses the save button
+        function save(callback) {
+            // example: select elements with class=value and build settings object
+            var obj = {};
+            $('.value').each(function () {
+                var $this = $(this);
+                if ($this.attr('type') === 'checkbox') {
+                    obj[$this.attr('id')] = $this.prop('checked');
+                } else {
+                    obj[$this.attr('id')] = $this.val();
+                }
+            });
+
+            // Get edited table
+            obj.devices = table2values('devices');
+
+            callback(obj);
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div class="m adapter-container">
+
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s2"><a href="#tab-main"    class="translate active">Main settings</a></li>
+                    <li class="tab col s2"><a href="#tab-devices" class="translate">Devices</a></li>
+                </ul>
+            </div>
+
+            <div id="tab-main"  class="col s12 page">
+                <div class="row">
+                    <div class="col s12 m4 l2">
+                        <img src="adb.png" class="logo">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6 input-field">
+                        <input type="text" class="value" id="adbHostOption" />
+                        <label for="adbHostOption" class="translate">ADB host</label>
+                    </div>
+        
+                    <div class="col s6 input-field">
+                        <input type="text" class="value" id="adbPortOption" />
+                        <label for="adbPortOption" class="translate">ADB port</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-devices"  class="col s12 page">
+                <div class="row">
+                    <div class="col s12" id="devices">
+                        <a class="btn-floating waves-effect waves-light blue table-button-add" style="margin: 5px;"><i class="material-icons">add</i></a>               
+                        <div class="table-values-div">
+                            <table class="table-values">
+                                <thead>
+                                <tr>
+                                    <th data-name="enabled"  style="width: 70px" data-style="width: 70px" data-type="checkbox" class="translate">Enabled</th>
+                                    <th data-name="name"     class="translate" style="width: 120px; white-space: nowrap">Name</th>
+                                    <th data-name="ip"       class="translate">IP Address</th>
+                                    <th data-name="port"     class="translate" style="width: 70px">Port</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+
+</html>
