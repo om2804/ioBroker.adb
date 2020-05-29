@@ -67,7 +67,8 @@ class Adb extends utils.Adapter {
      */
     async onStateChange(id, state) {
         const path = id.split(".");
-        if (path.pop() == "shellCommand" && state && state.ack === false)
+        
+        if (path.pop() == "shell" && state && state.ack === false)
         {
             const objectId = path.pop();
             const androidDevice = this.getAndroidDeviceByObject(this.devices, objectId);
