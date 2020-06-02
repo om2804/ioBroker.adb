@@ -38,7 +38,18 @@ const  states =  {
             read: true,
             write: false
         },
-    }
+    },
+    startApp: {
+        name: "startApp",
+        common: {
+            name: "Start an application",
+            type: 'string',
+            role: 'text',
+            read: true,
+            write: true,
+            desc: "Start an application. Specify the component name with package name prefix to create an explicit intent, such as com.example.app/.ExampleActivity."
+        },
+    },
 };
 
 class Adb extends utils.Adapter {
@@ -100,16 +111,20 @@ class Adb extends utils.Adapter {
      * @param {ioBroker.State | null | undefined} state
      */
     async onStateChange(id, state) {
+        if (!state || state.ack === true) return;
         const path = id.split(".");
-        
-        if (path.pop() == states.shell.name && state && state.ack === false)
+        const name = path.pop();
+        const objectId = path.pop();
+        const androidDevice = this.getAndroidDeviceByObject(this.devices, objectId);
+        if (!androidDevice) return;
+
+        if (name == states.shell.name)
+        {            
+            await androidDevice.shell(state.val);
+        }
+        else if (name == states.startApp.name)
         {
-            const objectId = path.pop();
-            const androidDevice = this.getAndroidDeviceByObject(this.devices, objectId);
-            if (androidDevice)
-            {
-                await androidDevice.shell(state.val);
-            }
+            await androidDevice.startApp(state.val);
         }
     }
 
@@ -223,7 +238,7 @@ class AndroidDevice {
         try {
             if (command.startsWith("shell")) command = command.substring(5).trim();
             if (!command) return;
-            
+
             const shellOut = await this.client.shell(this.id, command);
             const output = await adb.util.readAll(shellOut);
             const result = output.toString().trim();
@@ -231,6 +246,18 @@ class AndroidDevice {
         } catch (e)      {
             this.adapter.log.error(e.message);
         }
+    }
+
+    /**
+     * Start an application
+     * @param {*} component 
+     */
+    async startApp(component)
+    {
+        if (!component) return;
+        if (component.split("/").length < 2) component += '/.MainActivity';
+
+        await this.shell("am start -n " + component.trim());
     }
 
     onConnected()
@@ -244,6 +271,7 @@ class AndroidDevice {
         this.adapter.setState(this.getStateId(states.connection), { val: false, ack: true });
     }
 
+    
     /**
      * @private
      */
