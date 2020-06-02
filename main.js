@@ -7,6 +7,40 @@
 const utils = require('@iobroker/adapter-core');
 const adb = require('adbkit');
 
+const  states =  {
+    connection: {
+        name: "connection",
+        common: {
+            name: "Connection status",
+            type: 'boolean',
+            role: 'indicator.connected',
+            read: true,
+            write: false,
+            def: false
+        }
+    },
+    shell: {
+        name: "shell",
+        common: {
+            name: "Shell command",
+            type: 'string',
+            role: 'command',
+            read: true,
+            write: true
+        },
+    },
+    result: {
+        name: "result",
+        common: {
+            name: "Command result",
+            type: 'string',
+            role: 'text',
+            read: true,
+            write: false
+        },
+    }
+};
+
 class Adb extends utils.Adapter {
     /**
      * @param {Partial<ioBroker.AdapterOptions>} [options={}]
@@ -68,7 +102,7 @@ class Adb extends utils.Adapter {
     async onStateChange(id, state) {
         const path = id.split(".");
         
-        if (path.pop() == "shell" && state && state.ack === false)
+        if (path.pop() == states.shell.name && state && state.ack === false)
         {
             const objectId = path.pop();
             const androidDevice = this.getAndroidDeviceByObject(this.devices, objectId);
@@ -187,7 +221,13 @@ class AndroidDevice {
         }
 
         try {
-            await this.client.shell(this.id, command);  
+            if (command.startsWith("shell")) command = command.substring(5).trim();
+            if (!command) return;
+            
+            const shellOut = await this.client.shell(this.id, command);
+            const output = await adb.util.readAll(shellOut);
+            const result = output.toString().trim();
+            this.adapter.setState(this.getStateId(states.result), { val: result, ack: true });
         } catch (e)      {
             this.adapter.log.error(e.message);
         }
@@ -196,12 +236,12 @@ class AndroidDevice {
     onConnected()
     {
         this.connection = true;
-        this.adapter.setState(this.getObjectId(this.id) + ".connection", { val: true, ack: true });
+        this.adapter.setState(this.getStateId(states.connection), { val: true, ack: true });
     }
 
     onDisconnected() {
         this.connection = false;
-        this.adapter.setState(this.getObjectId(this.id) + ".connection", { val: false, ack: true });
+        this.adapter.setState(this.getStateId(states.connection), { val: false, ack: true });
     }
 
     /**
@@ -209,6 +249,7 @@ class AndroidDevice {
      */
     async createDeviceObject() {
         const objectId = this.objectId;
+
         await this.adapter.setObjectAsync(objectId, {
             type: 'state',
             common: {
@@ -221,36 +262,30 @@ class AndroidDevice {
             native: {},
         });
 
-        await this.adapter.setObjectAsync(objectId + ".connection", {
-            type: 'state',
-            common: {
-                name: "Connection status",
-                type: 'boolean',
-                role: 'indicator.connected',
-                read: true,
-                write: false,
-                def: false
-            },
-            native: {},
-        });
-
-        await this.adapter.setObjectAsync(objectId + ".shell", {
-            type: 'state',
-            common: {
-                name: "Shell command",
-                type: 'string',
-                role: 'command',
-                read: true,
-                write: true
-            },
-            native: {},
-        });
+        for (var i in states) {
+            var state = states[i];
+            await this.adapter.setObjectAsync(objectId + "." + state.name, {
+                type: 'state',
+                common: state.common,
+                native: {},
+            });
+        }        
     }
 
+    /**
+     * @private
+     */
     getObjectId(deviceId) {
         return deviceId.replace(/\./g, '_');
     }
 
+    /**
+     * @private
+     */
+    getStateId(state)
+    {
+        return this.objectId + "." + state.name;
+    }
 }
 
 // @ts-ignore parent is a valid property on module
