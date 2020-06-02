@@ -14,7 +14,7 @@
 
 With this adapter you can control some functions of your android devices:
 - custom shell command
-- start an application
+- start/stop an application
   
 ## Info
 
@@ -22,6 +22,9 @@ Android Debug Bridge (adb) is a versatile command-line tool that lets you commun
 
 adb is included in the Android SDK Platform-Tools package. You can download this package with the SDK Manager, which installs it at android_sdk/platform-tools/. In order not to install the complete Android SDK, you can install the  Minimal ADB and Fastboot or use adbLink
 
+### More info
+
+[Android Debug Bridge Docs](https://developer.android.com/studio/command-line/adb?hl=ru)
 
 ## Changelog
 
