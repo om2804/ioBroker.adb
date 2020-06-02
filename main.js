@@ -50,6 +50,17 @@ const  states =  {
             desc: "Start an application. Specify the component name with package name prefix to create an explicit intent, such as com.example.app/.ExampleActivity."
         },
     },
+    stopApp: {
+        name: "stopApp",
+        common: {
+            name: "Stop an application",
+            type: 'string',
+            role: 'text',
+            read: true,
+            write: true,
+            desc: "Stop an application. Force stop everything associated with package (the app's package name)."
+        },
+    },
 };
 
 class Adb extends utils.Adapter {
@@ -117,14 +128,19 @@ class Adb extends utils.Adapter {
         const objectId = path.pop();
         const androidDevice = this.getAndroidDeviceByObject(this.devices, objectId);
         if (!androidDevice) return;
+        const strValue = String(state.val);
 
         if (name == states.shell.name)
-        {            
-            await androidDevice.shell(state.val);
+        {           
+            await androidDevice.shell(strValue);
         }
         else if (name == states.startApp.name)
         {
-            await androidDevice.startApp(state.val);
+            await androidDevice.startApp(strValue);
+        }
+        else if (name == states.stopApp.name)
+        {
+            await androidDevice.stopApp(strValue);
         }
     }
 
@@ -181,6 +197,7 @@ class Adb extends utils.Adapter {
 
     /**
      * @private
+     * @returns {AndroidDevice|undefined}
      */
     getAndroidDeviceByObject(devices, objectId) {
         return devices.find((val, i, arr) => val.objectId == objectId);
@@ -188,7 +205,7 @@ class Adb extends utils.Adapter {
 }
 
 class AndroidDevice {
-
+    
     constructor(adapter, client, ip, port, name) {
         this.adapter = adapter;
         this.client = client;
@@ -250,7 +267,7 @@ class AndroidDevice {
 
     /**
      * Start an application
-     * @param {*} component 
+     * @param {string} component 
      */
     async startApp(component)
     {
@@ -258,6 +275,11 @@ class AndroidDevice {
         if (component.split("/").length < 2) component += '/.MainActivity';
 
         await this.shell("am start -n " + component.trim());
+    }
+
+    async stopApp($package) {
+        if (!$package) return;
+        await this.shell("am force-stop " + $package.split("/")[0].trim());
     }
 
     onConnected()
