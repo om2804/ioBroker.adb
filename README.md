@@ -13,7 +13,8 @@
 ## adb adapter for ioBroker
 
 With this adapter you can control some functions of your android devices:
-- sell command
+- custom shell command
+- start an application
   
 ## Info
 
