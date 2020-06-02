@@ -61,6 +61,18 @@ const  states =  {
             desc: "Stop an application. Force stop everything associated with package (the app's package name)."
         },
     },
+    reboot: {
+        name: "reboot",
+        common: {
+            name: "Reboots the device",
+            type: 'boolean',
+            role: 'button',
+            read: true,
+            write: true,
+            desc: "Reboots the device. Force stop everything associated with package (the app's package name).",
+            def: false
+        },
+    },
 };
 
 class Adb extends utils.Adapter {
@@ -141,6 +153,10 @@ class Adb extends utils.Adapter {
         else if (name == states.stopApp.name)
         {
             await androidDevice.stopApp(strValue);
+        }
+        else if (name == states.reboot.name) 
+        {
+            await androidDevice.reboot();
         }
     }
 
@@ -243,6 +259,18 @@ class AndroidDevice {
     }
 
     /**
+     * Reboot the device
+     */
+    async reboot()
+    {
+        if (!this.connection) 
+        {
+            if (!(await this.connect())) return;
+        }
+        await this.client.reboot(this.id);
+    }
+
+    /**
      * Execute shell command
      * @param {string} command 
      */
@@ -277,6 +305,10 @@ class AndroidDevice {
         await this.shell("am start -n " + component.trim());
     }
 
+    /**
+     * Stop an application
+     * @param {string} $package 
+     */
     async stopApp($package) {
         if (!$package) return;
         await this.shell("am force-stop " + $package.split("/")[0].trim());
