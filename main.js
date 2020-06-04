@@ -73,6 +73,18 @@ const  states =  {
             def: false
         },
     },
+    screencap : {
+        name: "screencap",
+        common: {
+            name: "Take screenshot",
+            type: 'boolean',
+            role: 'button',
+            read: true,
+            write: true,
+            desc: "Takes a screenshot in PNG format",
+            def: false
+        },
+    }
 };
 
 class Adb extends utils.Adapter {
@@ -80,6 +92,7 @@ class Adb extends utils.Adapter {
      * @param {Partial<ioBroker.AdapterOptions>} [options={}]
      */
     constructor(options) {
+        // @ts-ignore
         super({
             ...options,
             name: 'adb',
@@ -157,6 +170,10 @@ class Adb extends utils.Adapter {
         else if (name == states.reboot.name) 
         {
             await androidDevice.reboot();
+        }
+        else if (name == states.screencap.name)
+        {
+            await androidDevice.screencap();
         }
     }
 
@@ -288,7 +305,7 @@ class AndroidDevice {
             const output = await adb.util.readAll(shellOut);
             const result = output.toString().trim();
             this.adapter.setState(this.getStateId(states.result), { val: result, ack: true });
-        } catch (e)      {
+        } catch (e) {
             this.adapter.log.error(e.message);
         }
     }
@@ -312,6 +329,43 @@ class AndroidDevice {
     async stopApp($package) {
         if (!$package) return;
         await this.shell("am force-stop " + $package.split("/")[0].trim());
+    }
+
+    /**
+     * Take screenshot
+     */
+    async screencap() {
+        if (!this.connection) 
+        {
+            if (!(await this.connect())) return;
+        }
+
+        const stream = await this.client.screencap(this.id);
+        let output = await adb.util.readAll(stream);
+
+        const pngHeader = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+
+        let i = 0;
+        let j = 0;
+        while(i < output.length)
+        {
+            if (output[i] == pngHeader[j]) {
+                j++;
+                if (j >= pngHeader.length) {
+                    output = output.slice(i-pngHeader.length+1, output.length);
+                    break;
+                }
+            }
+            else {
+                j = 0;
+            }
+            i++;
+        }
+
+        const $this = this;
+        this.adapter.writeFile(this.adapter.namespace, 'tts.userfiles/' + "screenshot.png", output, function() {
+            $this.adapter.setState($this.getStateId(states.result), { val: "Screenshot taken", ack: true });
+        });        
     }
 
     onConnected()
