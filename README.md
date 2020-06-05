@@ -12,17 +12,55 @@
 
 ## adb adapter for ioBroker
 
-With this adapter you can control some functions of your android devices:
-- sell command
+With this adapter you can control some functions of your android devices through Android Debug Bridge:
+- custom shell command
+- start/stop an application
+- reboot
+- take screenshot
+
+### Custom shell command
+
+To execute shell command, write command to state **shell**. You will always get the answer in state **result**.
+
+Example:
+Press POWER key **input keyevent POWER** or **shell input keyevent POWER**
+
+### Start/Stop an application
+
+Start an application. Specify the component name with package name prefix to create an explicit intent.
+To start an application, write intent (*com.example.app/.ExampleActivity*.) to state **startApp**. 
+
+Example:  For KODI starting write **org.xbmc.kodi/.Splash**
+
+Stop an application. Force stop everything associated with package (the app's package name).
+To stop an application, write package name to state **stopApp**. 
+
+Example: For KODI stopping write **org.xbmc.kodi**
+
+### Reboot device
+
+Reboots the device. Write any value to state **reboot**.
+
+### Take screenshot
+
+Take screenshot and save to folder of adapter. Write any value to state **screencap**.
   
 ## Info
 
-Android Debug Bridge (adb) is a versatile command-line tool that lets you communicate with a device. The adb command facilitates a variety of device actions, such as installing and debugging apps, and it provides access to a Unix shell that you can use to run a variety of commands on a device. 
+Android Debug Bridge (adb) is a versatile command-line tool that lets you communicate with a device. The adb command facilitates a variety of device actions, such as installing and debugging apps, and it provides access to a Unix shell that you can use to run a variety of commands on a device.
 
 adb is included in the Android SDK Platform-Tools package. You can download this package with the SDK Manager, which installs it at android_sdk/platform-tools/. In order not to install the complete Android SDK, you can install the  Minimal ADB and Fastboot or use adbLink
 
+### More info
+
+[Android Debug Bridge Docs](https://developer.android.com/studio/command-line/adb?hl=ru)
 
 ## Changelog
+
+### 0.0.2
+* (om2804) start/stopp application
+* (om2804) reboot device
+* (om2804) take screenshot
 
 ### 0.0.1
 * (om2804) initial release
