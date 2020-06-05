@@ -69,7 +69,7 @@ const  states =  {
             role: 'button',
             read: true,
             write: true,
-            desc: "Reboots the device. Force stop everything associated with package (the app's package name).",
+            desc: "Reboots the device",
             def: false
         },
     },
