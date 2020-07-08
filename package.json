@@ -1,6 +1,6 @@
 {
   "name": "iobroker.adb",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Android Debug Bridge",
   "author": {
     "name": "om2804",

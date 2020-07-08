@@ -340,32 +340,36 @@ class AndroidDevice {
             if (!(await this.connect())) return;
         }
 
-        const stream = await this.client.screencap(this.id);
-        let output = await adb.util.readAll(stream);
+        try {
+            const stream = await this.client.screencap(this.id);
+            let output = await adb.util.readAll(stream);
 
-        const pngHeader = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+            const pngHeader = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
 
-        let i = 0;
-        let j = 0;
-        while(i < output.length)
-        {
-            if (output[i] == pngHeader[j]) {
-                j++;
-                if (j >= pngHeader.length) {
-                    output = output.slice(i-pngHeader.length+1, output.length);
-                    break;
+            let i = 0;
+            let j = 0;
+            while(i < output.length)
+            {
+                if (output[i] == pngHeader[j]) {
+                    j++;
+                    if (j >= pngHeader.length) {
+                        output = output.slice(i-pngHeader.length+1, output.length);
+                        break;
+                    }
                 }
+                else {
+                    j = 0;
+                }
+                i++;
             }
-            else {
-                j = 0;
-            }
-            i++;
-        }
 
-        const $this = this;
-        this.adapter.writeFile(this.adapter.namespace, 'tts.userfiles/' + "screenshot.png", output, function() {
-            $this.adapter.setState($this.getStateId(states.result), { val: "Screenshot taken", ack: true });
-        });        
+            const $this = this;
+            this.adapter.writeFile(this.adapter.namespace, "/screenshot.png", output, function() {
+                $this.adapter.setState($this.getStateId(states.result), { val: "Screenshot taken", ack: true });
+            });       
+        } catch (e) {
+            this.adapter.log.error(e.message);
+        } 
     }
 
     onConnected()
@@ -386,8 +390,8 @@ class AndroidDevice {
     async createDeviceObject() {
         const objectId = this.objectId;
 
-        await this.adapter.setObjectAsync(objectId, {
-            type: 'state',
+        await this.adapter.setObjectNotExistsAsync(objectId, {
+            type: 'device',
             common: {
                 name: this.name || this.id,
                 type: 'string',
@@ -400,7 +404,7 @@ class AndroidDevice {
 
         for (var i in states) {
             var state = states[i];
-            await this.adapter.setObjectAsync(objectId + "." + state.name, {
+            await this.adapter.setObjectNotExistsAsync(objectId + "." + state.name, {
                 type: 'state',
                 common: state.common,
                 native: {},
