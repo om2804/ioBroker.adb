@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "adb",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "news": {
+            "0.0.3": {
+                "en": "fixes ater review",
+                "de": "behebt nach Überprüfung",
+                "ru": "исправления после обзора",
+                "pt": "fixes ater review",
+                "nl": "repareert ater review",
+                "fr": "correction de la révision ater",
+                "it": "correzioni dopo la revisione",
+                "es": "repara una revisión",
+                "pl": "naprawia przegląd ater",
+                "zh-cn": "修复审核"
+            },
             "0.0.2": {
                 "en": "add commands: start/stopp application, reboot device, take screenshot",
                 "de": "Befehle hinzufügen: Anwendung starten / stoppen, Gerät neu starten, Screenshot machen",

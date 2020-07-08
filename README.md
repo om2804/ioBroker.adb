@@ -57,6 +57,9 @@ adb is included in the Android SDK Platform-Tools package. You can download this
 
 ## Changelog
 
+### 0.0.3
+* (om2804) fixes ater review
+
 ### 0.0.2
 * (om2804) start/stopp application
 * (om2804) reboot device
