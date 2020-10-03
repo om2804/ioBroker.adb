@@ -51,6 +51,9 @@ Android Debug Bridge (adb) is a versatile command-line tool that lets you commun
 
 adb is included in the Android SDK Platform-Tools package. You can download this package with the SDK Manager, which installs it at android_sdk/platform-tools/. In order not to install the complete Android SDK, you can install the  Minimal ADB and Fastboot or use adbLink
 
+For use adapter need start adb server.
+**adb start-server**
+
 ### More info
 
 [Android Debug Bridge Docs](https://developer.android.com/studio/command-line/adb?hl=ru)
