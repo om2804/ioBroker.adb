@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "adb",
-        "version": "0.0.3",
+        "version": "0.0.4",
         "news": {
+			"0.0.4" {
+				"en": "js-controller dependency upgraded to > 2.0.0",
+				"de": "js-controller-abhängigkeit auf> 2.0.0 aktualisiert",
+				"ru": "зависимость js-controller обновлена до> 2.0.0",
+				"pt": "Dependência do js-controller atualizada para> 2.0.0",
+				"nl": "js-controller afhankelijkheid geüpgraded naar> 2.0.0",
+				"fr": "Dépendance js-controller mise à niveau vers> 2.0.0",
+				"it": "dipendenza js-controller aggiornata a> 2.0.0",
+				"es": "Dependencia js-controller actualizada a> 2.0.0",
+				"pl": "Zależność kontrolera js zaktualizowana do> 2.0.0",
+				"zh-cn": "js-controller依赖关系已升级到> 2.0.0"
+			},
             "0.0.3": {
                 "en": "fixes ater review",
                 "de": "behebt nach Überprüfung",
