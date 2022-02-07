@@ -95,6 +95,8 @@
         "loglevel": "info",
         "mode": "daemon",
         "type": "hardware",
+		"connectionType": "local",
+		"dataSource": "push",
         "compact": true,
         "materialize": true,
         "dependencies": [
