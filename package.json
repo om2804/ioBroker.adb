@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.4.0",
-    "adbkit": "^2.11.1"
+    "@devicefarmer/adbkit": "^3.2.3"
   },
   "devDependencies": {
     "@iobroker/testing": "^2.2.0",

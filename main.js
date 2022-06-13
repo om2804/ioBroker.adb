@@ -5,7 +5,7 @@
  */
 
 const utils = require('@iobroker/adapter-core');
-const adb = require('adbkit');
+const adb = require('@devicefarmer/adbkit').Adb;
 
 const  states =  {
     connection: {
@@ -116,7 +116,7 @@ class Adb extends utils.Adapter {
         this.client = adb.createClient({host: this.config.adbHostOption, port: this.config.adbPortOption});
                 
         this.restoreDevices(this);
-        this.trackDevices(this);
+        await this.trackDevices(this);
         this.connectAllDevices(); 
 
         this.subscribeStates('*');
@@ -177,29 +177,28 @@ class Adb extends utils.Adapter {
         }
     }
 
-    trackDevices($this) {
-        this.client.trackDevices()
-            .then(function (tracker) {
-                $this.setState('info.connection', true, true);
-                tracker.on('add', async function (device) {
-                    $this.log.info('Device ' + device.id + " was plugged");
-                    const androidDevice = $this.getAndroidDeviceById($this.devices, device.id);
-                    if (androidDevice)
-                        androidDevice.onConnected();
-                });
-                tracker.on('remove', async function (device) {
-                    $this.log.info('Device ' + device.id + " was unplugged");
-                    const androidDevice = $this.getAndroidDeviceById($this.devices, device.id);
-                    if (androidDevice)
-                        androidDevice.onDisconnected();
-                });
-                tracker.on('end', function () {
-                    $this.log.info('Tracking stopped');
-                });
-            })
-            .catch(function (err) {
-                $this.log.error('Something went wrong:', err.stack);
+    async trackDevices($this) {
+        try {
+            var tracker = await $this.client.trackDevices();
+            $this.setState('info.connection', true, true);
+            tracker.on('add', async function (device) {
+                $this.log.info('Device ' + device.id + " was plugged");
+                const androidDevice = $this.getAndroidDeviceById($this.devices, device.id);
+                if (androidDevice)
+                    androidDevice.onConnected();
             });
+            tracker.on('remove', async function (device) {
+                $this.log.info('Device ' + device.id + " was unplugged");
+                const androidDevice = $this.getAndroidDeviceById($this.devices, device.id);
+                if (androidDevice)
+                    androidDevice.onDisconnected();
+            });
+            tracker.on('end', function () {
+                $this.log.info('Tracking stopped');
+            });
+        } catch(err) {
+                $this.log.error('Something went wrong:', err.stack);
+        }
     }
 
     connectAllDevices() {
@@ -249,13 +248,15 @@ class AndroidDevice {
         this.objectId = this.getObjectId(ip + ":" + port);
         this.connection = false;
         this.createDeviceObject().then();
+        this.device = undefined;
     }
 
     async connect()  {
         const $this = this;
         try {
             const id = await this.client.connect(this.ip, this.port);
-            $this.id = id;       
+            $this.id = id;
+            this.device = this.client.getDevice(this.id);     
             $this.onConnected();
             return true;
         }
@@ -284,7 +285,7 @@ class AndroidDevice {
         {
             if (!(await this.connect())) return;
         }
-        await this.client.reboot(this.id);
+        await this.device.reboot();
     }
 
     /**
@@ -301,7 +302,7 @@ class AndroidDevice {
             if (command.startsWith("shell")) command = command.substring(5).trim();
             if (!command) return;
 
-            const shellOut = await this.client.shell(this.id, command);
+            const shellOut = await this.device.shell(command);
             const output = await adb.util.readAll(shellOut);
             const result = output.toString().trim();
             this.adapter.setState(this.getStateId(states.result), { val: result, ack: true });
@@ -341,7 +342,7 @@ class AndroidDevice {
         }
 
         try {
-            const stream = await this.client.screencap(this.id);
+            const stream = await this.device.screencap();
             let output = await adb.util.readAll(stream);
 
             const pngHeader = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
@@ -373,7 +374,7 @@ class AndroidDevice {
     }
 
     onConnected()
-    {
+    {        
         this.connection = true;
         this.adapter.setState(this.getStateId(states.connection), { val: true, ack: true });
     }
