@@ -120,7 +120,6 @@ class Adb extends utils.Adapter {
         this.subscribeStates('*');
     }
 
-
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
      * @param {() => void} callback
@@ -137,7 +136,6 @@ class Adb extends utils.Adapter {
             callback();
         }
     }
-
 
     /**
      * Is called if a subscribed state changes
@@ -268,7 +266,10 @@ class AndroidDevice {
      */
     async tryConnect() {
         if (!this.connection) {
-            return await this.connect();
+            if (!await this.connect()) {
+                return false;
+            }
+            await this.device.waitForDevice();
         }
         return true;
     }
