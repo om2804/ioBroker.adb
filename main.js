@@ -109,14 +109,12 @@ class Adb extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     async onReady() {
-        const $this = this;
-
         this.setState('info.connection', false, true);
 
         this.client = adb.createClient({host: this.config.adbHostOption, port: this.config.adbPortOption});
                 
-        this.restoreDevices(this);
-        await this.trackDevices(this);
+        this.restoreDevices();
+        await this.trackDevices();
         this.connectAllDevices(); 
 
         this.subscribeStates('*');
@@ -177,27 +175,27 @@ class Adb extends utils.Adapter {
         }
     }
 
-    async trackDevices($this) {
+    async trackDevices() {
         try {
-            var tracker = await $this.client.trackDevices();
-            $this.setState('info.connection', true, true);
+            var tracker = await this.client.trackDevices();
+            this.setState('info.connection', true, true);
             tracker.on('add', async function (device) {
-                $this.log.info('Device ' + device.id + " was plugged");
-                const androidDevice = $this.getAndroidDeviceById($this.devices, device.id);
+                this.log.info('Device ' + device.id + " was plugged");
+                const androidDevice = this.getAndroidDeviceById(this.devices, device.id);
                 if (androidDevice)
                     androidDevice.onConnected();
-            });
+            }.bind(this));
             tracker.on('remove', async function (device) {
-                $this.log.info('Device ' + device.id + " was unplugged");
-                const androidDevice = $this.getAndroidDeviceById($this.devices, device.id);
+                this.log.info('Device ' + device.id + " was unplugged");
+                const androidDevice = this.getAndroidDeviceById($this.devices, device.id);
                 if (androidDevice)
                     androidDevice.onDisconnected();
-            });
+            }.bind(this));
             tracker.on('end', function () {
-                $this.log.info('Tracking stopped');
-            });
+                this.log.info('Tracking stopped');
+            }.bind(this));
         } catch(err) {
-                $this.log.error('Something went wrong:', err.stack);
+                this.log.error('Something went wrong:', err.stack);
         }
     }
 
@@ -211,13 +209,13 @@ class Adb extends utils.Adapter {
      * Restore devices from config
      * @private
      */
-    restoreDevices($this) {
-        $this.config.devices.forEach(device => {
+    restoreDevices() {
+        this.config.devices.forEach((device => {
             if (device.enabled) {
-                const androidDevice = new AndroidDevice($this, $this.client, device.ip, device.port, device.name);
-                $this.devices.push(androidDevice);
+                const androidDevice = new AndroidDevice(this, this.client, device.ip, device.port, device.name);
+                this.devices.push(androidDevice);
             }
-        });
+        }).bind(this));
     }
 
     /**
@@ -252,28 +250,26 @@ class AndroidDevice {
     }
 
     async connect()  {
-        const $this = this;
         try {
             const id = await this.client.connect(this.ip, this.port);
-            $this.id = id;
+            this.id = id;
             this.device = this.client.getDevice(this.id);     
-            $this.onConnected();
+            this.onConnected();
             return true;
         }
         catch(e) {
-            $this.onDisconnected();
-            $this.adapter.log.error('Can not connect to ' + $this.name + " (" + $this.ip + '). Error: ' + e.message);
+            this.onDisconnected();
+            this.adapter.log.error('Can not connect to ' + this.name + " (" + this.ip + '). Error: ' + e.message);
             return false;
         }
     }
 
     close() {
-        const $this = this;
         this.client.disconnect(this.ip, this.port, function(err, id) {
             if (err) {
-                $this.adapter.log.error("Disconnect error: " + err.message);
+                this.adapter.log.error("Disconnect error: " + err.message);
             }
-        });
+        }.bind(this));
     }
 
     /**
@@ -364,10 +360,9 @@ class AndroidDevice {
                 i++;
             }
 
-            const $this = this;
             this.adapter.writeFile(this.adapter.namespace, "/screenshot.png", output, function() {
-                $this.adapter.setState($this.getStateId(states.result), { val: "Screenshot taken", ack: true });
-            });       
+                this.adapter.setState(this.getStateId(states.result), { val: "Screenshot taken", ack: true });
+            }.bind(this));       
         } catch (e) {
             this.adapter.log.error(e.message);
         } 
