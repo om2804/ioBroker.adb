@@ -7,7 +7,7 @@
 const utils = require('@iobroker/adapter-core');
 const adb = require('@devicefarmer/adbkit').Adb;
 
-const  states =  {
+const states = {
     connection: {
         name: "connection",
         common: {
@@ -73,7 +73,7 @@ const  states =  {
             def: false
         },
     },
-    screencap : {
+    screencap: {
         name: "screencap",
         common: {
             name: "Take screenshot",
@@ -100,7 +100,7 @@ class Adb extends utils.Adapter {
         this.on('ready', this.onReady.bind(this));
         this.on('stateChange', this.onStateChange.bind(this));
         // this.on('message', this.onMessage.bind(this));
-        this.on('unload', this.onUnload.bind(this));  
+        this.on('unload', this.onUnload.bind(this));
 
         this.devices = new Array();
     }
@@ -111,16 +111,16 @@ class Adb extends utils.Adapter {
     async onReady() {
         this.setState('info.connection', false, true);
 
-        this.client = adb.createClient({host: this.config.adbHostOption, port: this.config.adbPortOption});
-                
+        this.client = adb.createClient({ host: this.config.adbHostOption, port: this.config.adbPortOption });
+
         this.restoreDevices();
         await this.trackDevices();
-        this.connectAllDevices(); 
+        this.connectAllDevices();
 
         this.subscribeStates('*');
     }
 
-    
+
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
      * @param {() => void} callback
@@ -153,24 +153,19 @@ class Adb extends utils.Adapter {
         if (!androidDevice) return;
         const strValue = String(state.val);
 
-        if (name == states.shell.name)
-        {           
+        if (name == states.shell.name) {
             await androidDevice.shell(strValue);
         }
-        else if (name == states.startApp.name)
-        {
+        else if (name == states.startApp.name) {
             await androidDevice.startApp(strValue);
         }
-        else if (name == states.stopApp.name)
-        {
+        else if (name == states.stopApp.name) {
             await androidDevice.stopApp(strValue);
         }
-        else if (name == states.reboot.name) 
-        {
+        else if (name == states.reboot.name) {
             await androidDevice.reboot();
         }
-        else if (name == states.screencap.name)
-        {
+        else if (name == states.screencap.name) {
             await androidDevice.screencap();
         }
     }
@@ -194,8 +189,8 @@ class Adb extends utils.Adapter {
             tracker.on('end', function () {
                 this.log.info('Tracking stopped');
             }.bind(this));
-        } catch(err) {
-                this.log.error('Something went wrong:', err.stack);
+        } catch (err) {
+            this.log.error('Something went wrong:', err.stack);
         }
     }
 
@@ -235,7 +230,7 @@ class Adb extends utils.Adapter {
 }
 
 class AndroidDevice {
-    
+
     constructor(adapter, client, ip, port, name) {
         this.adapter = adapter;
         this.client = client;
@@ -249,23 +244,40 @@ class AndroidDevice {
         this.device = undefined;
     }
 
-    async connect()  {
+    /**
+     * Connect to device
+     */
+    async connect() {
         try {
             const id = await this.client.connect(this.ip, this.port);
             this.id = id;
-            this.device = this.client.getDevice(this.id);     
+            this.device = this.client.getDevice(this.id);
             this.onConnected();
             return true;
         }
-        catch(e) {
+        catch (e) {
             this.onDisconnected();
-            this.adapter.log.error('Can not connect to ' + this.name + " (" + this.ip + '). Error: ' + e.message);
+            this.setError('Can not connect to ' + this.name + " (" + this.ip + '). ' + e.message);
             return false;
         }
     }
 
+    /**
+     * Try connect to device
+     * @returns Connection status
+     */
+    async tryConnect() {
+        if (!this.connection) {
+            return await this.connect();
+        }
+        return true;
+    }
+
+    /**
+     * Close connection to device
+     */
     close() {
-        this.client.disconnect(this.ip, this.port, function(err, id) {
+        this.client.disconnect(this.ip, this.port, function (err, id) {
             if (err) {
                 this.adapter.log.error("Disconnect error: " + err.message);
             }
@@ -275,13 +287,15 @@ class AndroidDevice {
     /**
      * Reboot the device
      */
-    async reboot()
-    {
-        if (!this.connection) 
-        {
-            if (!(await this.connect())) return;
+    async reboot() {
+        if (!(await this.tryConnect())) return;
+
+        try {
+            await this.device.reboot();
         }
-        await this.device.reboot();
+        catch (e) {
+            this.setError(e.message);
+        }
     }
 
     /**
@@ -289,10 +303,7 @@ class AndroidDevice {
      * @param {string} command 
      */
     async shell(command) {
-        if (!this.connection) 
-        {
-            if (!(await this.connect())) return;
-        }
+        if (!(await this.tryConnect())) return;
 
         try {
             if (command.startsWith("shell")) command = command.substring(5).trim();
@@ -301,9 +312,9 @@ class AndroidDevice {
             const shellOut = await this.device.shell(command);
             const output = await adb.util.readAll(shellOut);
             const result = output.toString().trim();
-            this.adapter.setState(this.getStateId(states.result), { val: result, ack: true });
+            this.setResult(result);
         } catch (e) {
-            this.adapter.log.error(e.message);
+            this.setError(e.message);
         }
     }
 
@@ -311,8 +322,7 @@ class AndroidDevice {
      * Start an application
      * @param {string} component 
      */
-    async startApp(component)
-    {
+    async startApp(component) {
         if (!component) return;
         if (component.split("/").length < 2) component += '/.MainActivity';
 
@@ -332,10 +342,7 @@ class AndroidDevice {
      * Take screenshot
      */
     async screencap() {
-        if (!this.connection) 
-        {
-            if (!(await this.connect())) return;
-        }
+        if (!(await this.tryConnect())) return;
 
         try {
             const stream = await this.device.screencap();
@@ -345,12 +352,11 @@ class AndroidDevice {
 
             let i = 0;
             let j = 0;
-            while(i < output.length)
-            {
+            while (i < output.length) {
                 if (output[i] == pngHeader[j]) {
                     j++;
                     if (j >= pngHeader.length) {
-                        output = output.slice(i-pngHeader.length+1, output.length);
+                        output = output.slice(i - pngHeader.length + 1, output.length);
                         break;
                     }
                 }
@@ -360,16 +366,15 @@ class AndroidDevice {
                 i++;
             }
 
-            this.adapter.writeFile(this.adapter.namespace, "/screenshot.png", output, function() {
-                this.adapter.setState(this.getStateId(states.result), { val: "Screenshot taken", ack: true });
-            }.bind(this));       
+            this.adapter.writeFile(this.adapter.namespace, "/screenshot.png", output, function () {
+                this.setResult("Screenshot taken");
+            }.bind(this));
         } catch (e) {
-            this.adapter.log.error(e.message);
-        } 
+            this.setError(e.message);
+        }
     }
 
-    onConnected()
-    {        
+    onConnected() {
         this.connection = true;
         this.adapter.setState(this.getStateId(states.connection), { val: true, ack: true });
     }
@@ -379,7 +384,26 @@ class AndroidDevice {
         this.adapter.setState(this.getStateId(states.connection), { val: false, ack: true });
     }
 
-    
+    /**
+     * Set result command
+     * @private
+     * @param {string} result 
+     */
+    setResult(result) {
+        if (!result || result.length === 0) result = "ok";
+        this.adapter.setState(this.getStateId(states.result), { val: result, ack: true });
+    }
+
+    /**
+     * Set error message
+     * @param {string} error 
+     */
+    setError(error) {
+        if (!error || error.length === 0) return;
+        this.adapter.log.error(error);
+        this.adapter.setState(this.getStateId(states.result), { val: "error: " + error, ack: true });
+    }
+
     /**
      * @private
      */
@@ -405,7 +429,7 @@ class AndroidDevice {
                 common: state.common,
                 native: {},
             });
-        }        
+        }
     }
 
     /**
@@ -418,8 +442,7 @@ class AndroidDevice {
     /**
      * @private
      */
-    getStateId(state)
-    {
+    getStateId(state) {
         return this.objectId + "." + state.name;
     }
 }
