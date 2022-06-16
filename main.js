@@ -180,7 +180,7 @@ class Adb extends utils.Adapter {
             }.bind(this));
             tracker.on('remove', async function (device) {
                 this.log.info('Device ' + device.id + " was unplugged");
-                const androidDevice = this.getAndroidDeviceById($this.devices, device.id);
+                const androidDevice = this.getAndroidDeviceById(this.devices, device.id);
                 if (androidDevice)
                     androidDevice.onDisconnected();
             }.bind(this));
