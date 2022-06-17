@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "adb",
-        "version": "0.0.5",
+        "version": "0.0.6",
         "news": {
+            "0.0.6": {
+                "en": "Add delete and up/down buttons in device list.\nReplace dependency 'adbkit'. Active development has been moved to DeviceFarmer organisation.\nAdd wait for device after connection.",
+                "de": "Hinzufügen von Lösch- und Auf-/Abschalttasten in der Geräteliste.\nErsetzen Abhängigkeit adbkit. Die aktive Entwicklung wurde in die Organisation von DeviceFarmer verschoben.\nAdd warte nach der Verbindung auf das Gerät.",
+                "ru": "Добавлены кнопки удаления и сортировки в списке устройств.\nЗаменена зависимость adbkit. Активное развитие было перенесено в организацию DeviceFarmer.\nДобавлено ождидания полного подключения устроства.",
+                "pt": "Adicione botões de exclusão e up/down na lista de dispositivos.\nReplace adbkit de dependência. O desenvolvimento ativo foi movido para a organização DeviceFarmer.\nAdd esperar pelo dispositivo após a conexão.",
+                "nl": "Verwijder en up/down knoppen in apparaatlijst. Actieve ontwikkeling is verplaatst naar DeviceFarmer organisatie.",
+                "fr": "Ajouter les boutons de suppression et de retrait dans la liste des périphériques.\nReplacer l'adbkit de dépendance. Le développement actif a été déplacé à l'organisation DeviceFarmer.\nAjouter attendre l'appareil après la connexion.",
+                "it": "Aggiungi pulsanti delete and up/down nell'elenco dei dispositivi.\nSostituisci adbkit dipendenza. Lo sviluppo attivo è stato spostato all'organizzazione DeviceFarmer.\nAdd attendere il dispositivo dopo la connessione.",
+                "es": "Añadir botones de borrado y arriba / abajo en la lista de dispositivos.\nReemplazar adbkit dependencia. Desarrollo activo se ha movido a la organización DeviceFarmer.\nAdd espera para el dispositivo después de la conexión.",
+                "pl": "Add delete and up/down buttons in device list.\nReplace dependency adbkit. Prace nad programem zostały przeniesione do DeviceFarmer.\nAdd czekającego na urządzenie po połączeniu.",
+                "zh-cn": "在装置清单中删除和降解/降水、排他性。 积极发展已转移到DeviceFarmer组织,然后再等待装置。."
+            },
 			"0.0.5": {
 				"en": "js-controller dependency upgraded to > 2.0.0",
 				"de": "js-controller-abhängigkeit auf> 2.0.0 aktualisiert",
