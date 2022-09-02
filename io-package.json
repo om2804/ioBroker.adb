@@ -144,6 +144,15 @@
                 "def": false
             },
             "native": {}
-        }
+        },
+		{
+		  "_id": "",
+		  "type": "meta",
+		  "common": {
+			"name": "Screenshot from device",
+			"type": "meta"
+		  },
+		  "native": {}
+		}
     ]
 }
