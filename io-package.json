@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "adb",
-        "version": "0.0.6",
+        "version": "0.0.7",
         "news": {
+			"0.0.7": {
+				"en": "Add meta object for fix screenshot.",
+				"de": "Fügen Sie Meta-Objekt für Fix Screenshot hinzu",
+				"ru": "Добавлен meta-объект для исправдления скриншота.",
+				"pt": "Adicionar meta-objeto para corrigir a captura de tela",
+				"nl": "Voeg meta-object toe",
+				"fr": "Ajouter meta-object pour fixer screenshot",
+				"it": "Aggiungi meta-oggetti per fissare screenshot",
+				"es": "Añadir meta-objeto para fijar captura de pantalla",
+				"pl": "Add metaobject for fix screenshot screenshot",
+				"zh-cn": "九. 包围屏幕的代用品"
+			},
             "0.0.6": {
                 "en": "Add delete and up/down buttons in device list.\nReplace dependency 'adbkit'. Active development has been moved to DeviceFarmer organisation.\nAdd wait for device after connection.",
                 "de": "Hinzufügen von Lösch- und Auf-/Abschalttasten in der Geräteliste.\nErsetzen Abhängigkeit adbkit. Die aktive Entwicklung wurde in die Organisation von DeviceFarmer verschoben.\nAdd warte nach der Verbindung auf das Gerät.",
