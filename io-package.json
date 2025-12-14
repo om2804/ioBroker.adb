@@ -111,7 +111,6 @@
         ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
-        "main": "main.js",
         "icon": "adb.png",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/om2804/ioBroker.adb/master/admin/adb.png",
