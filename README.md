@@ -79,6 +79,8 @@ For use adapter need start adb server.
 ### 0.0.1
 * (om2804) initial release
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 MIT License
 
