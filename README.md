@@ -60,6 +60,10 @@ For use adapter need start adb server.
 
 ## Changelog
 
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires js-controller >= 6.0.11 now.
+
 ### 0.0.6
 * (om2804) Add delete and up/down buttons in device list.
 * (om2804) Replace dependency 'adbkit'. Active development has been moved to DeviceFarmer organisation.
