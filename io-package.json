@@ -1,170 +1,172 @@
 {
-    "common": {
-        "name": "adb",
-        "version": "0.0.7",
-        "news": {
-			"0.0.7": {
-				"en": "Add meta object for fix screenshot.",
-				"de": "Fügen Sie Meta-Objekt für Fix Screenshot hinzu",
-				"ru": "Добавлен meta-объект для исправдления скриншота.",
-				"pt": "Adicionar meta-objeto para corrigir a captura de tela",
-				"nl": "Voeg meta-object toe",
-				"fr": "Ajouter meta-object pour fixer screenshot",
-				"it": "Aggiungi meta-oggetti per fissare screenshot",
-				"es": "Añadir meta-objeto para fijar captura de pantalla",
-				"pl": "Add metaobject for fix screenshot screenshot",
-				"zh-cn": "九. 包围屏幕的代用品"
-			},
-            "0.0.6": {
-                "en": "Add delete and up/down buttons in device list.\nReplace dependency 'adbkit'. Active development has been moved to DeviceFarmer organisation.\nAdd wait for device after connection.",
-                "de": "Hinzufügen von Lösch- und Auf-/Abschalttasten in der Geräteliste.\nErsetzen Abhängigkeit adbkit. Die aktive Entwicklung wurde in die Organisation von DeviceFarmer verschoben.\nAdd warte nach der Verbindung auf das Gerät.",
-                "ru": "Добавлены кнопки удаления и сортировки в списке устройств.\nЗаменена зависимость adbkit. Активное развитие было перенесено в организацию DeviceFarmer.\nДобавлено ождидания полного подключения устроства.",
-                "pt": "Adicione botões de exclusão e up/down na lista de dispositivos.\nReplace adbkit de dependência. O desenvolvimento ativo foi movido para a organização DeviceFarmer.\nAdd esperar pelo dispositivo após a conexão.",
-                "nl": "Verwijder en up/down knoppen in apparaatlijst. Actieve ontwikkeling is verplaatst naar DeviceFarmer organisatie.",
-                "fr": "Ajouter les boutons de suppression et de retrait dans la liste des périphériques.\nReplacer l'adbkit de dépendance. Le développement actif a été déplacé à l'organisation DeviceFarmer.\nAjouter attendre l'appareil après la connexion.",
-                "it": "Aggiungi pulsanti delete and up/down nell'elenco dei dispositivi.\nSostituisci adbkit dipendenza. Lo sviluppo attivo è stato spostato all'organizzazione DeviceFarmer.\nAdd attendere il dispositivo dopo la connessione.",
-                "es": "Añadir botones de borrado y arriba / abajo en la lista de dispositivos.\nReemplazar adbkit dependencia. Desarrollo activo se ha movido a la organización DeviceFarmer.\nAdd espera para el dispositivo después de la conexión.",
-                "pl": "Add delete and up/down buttons in device list.\nReplace dependency adbkit. Prace nad programem zostały przeniesione do DeviceFarmer.\nAdd czekającego na urządzenie po połączeniu.",
-                "zh-cn": "在装置清单中删除和降解/降水、排他性。 积极发展已转移到DeviceFarmer组织,然后再等待装置。."
-            },
-			"0.0.5": {
-				"en": "js-controller dependency upgraded to > 2.0.0",
-				"de": "js-controller-abhängigkeit auf> 2.0.0 aktualisiert",
-				"ru": "зависимость js-controller обновлена до> 2.0.0",
-				"pt": "Dependência do js-controller atualizada para> 2.0.0",
-				"nl": "js-controller afhankelijkheid geüpgraded naar> 2.0.0",
-				"fr": "Dépendance js-controller mise à niveau vers> 2.0.0",
-				"it": "dipendenza js-controller aggiornata a> 2.0.0",
-				"es": "Dependencia js-controller actualizada a> 2.0.0",
-				"pl": "Zależność kontrolera js zaktualizowana do> 2.0.0",
-				"zh-cn": "js-controller依赖关系已升级到> 2.0.0"
-			},
-            "0.0.3": {
-                "en": "fixes ater review",
-                "de": "behebt nach Überprüfung",
-                "ru": "исправления после обзора",
-                "pt": "fixes ater review",
-                "nl": "repareert ater review",
-                "fr": "correction de la révision ater",
-                "it": "correzioni dopo la revisione",
-                "es": "repara una revisión",
-                "pl": "naprawia przegląd ater",
-                "zh-cn": "修复审核"
-            },
-            "0.0.2": {
-                "en": "add commands: start/stopp application, reboot device, take screenshot",
-                "de": "Befehle hinzufügen: Anwendung starten / stoppen, Gerät neu starten, Screenshot machen",
-                "ru": "Добавлены команды: запустить / остановить приложение, перезагрузить устройство, сделать скриншот",
-                "pt": "adicione comandos: inicie / interrompa o aplicativo, reinicie o dispositivo, faça a captura de tela",
-                "nl": "opdrachten toevoegen: applicatie starten / stoppen, apparaat opnieuw opstarten, screenshot maken",
-                "fr": "ajouter des commandes: démarrer / arrêter l'application, redémarrer l'appareil, prendre une capture d'écran",
-                "it": "aggiungi comandi: avvia / interrompi applicazione, riavvia il dispositivo, fai screenshot",
-                "es": "agregar comandos: iniciar / detener la aplicación, reiniciar el dispositivo, tomar captura de pantalla",
-                "pl": "dodaj polecenia: uruchom / zatrzymaj aplikację, uruchom ponownie urządzenie, zrób zrzut ekranu",
-                "zh-cn": "添加命令：启动/停止应用程序，重启设备，截图"
-            },
-            "0.0.1": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
-            }
-        },
-        "title": "Android Debug Bridge",
-        "titleLang": {
-            "en": "Android Debug Bridge",
-            "de": "Android Debug Bridge",
-            "ru": "Android Debug Bridge",
-            "pt": "Ponte de depuração do Android",
-            "nl": "Android Debug Bridge",
-            "fr": "Pont de débogage Android",
-            "it": "Android Debug Bridge",
-            "es": "Puente de depuración de Android",
-            "pl": "Android Debug Bridge",
-            "zh-cn": "Android调试桥"
-        },
-        "desc": {
-            "en": "Android Debug Bridge",
-            "de": "Android Debug Bridge",
-            "ru": "Android Debug Bridge",
-            "pt": "Ponte de depuração do Android",
-            "nl": "Android Debug Bridge",
-            "fr": "Pont de débogage Android",
-            "it": "Android Debug Bridge",
-            "es": "Puente de depuración de Android",
-            "pl": "Android Debug Bridge",
-            "zh-cn": "Android调试桥"
-        },
-        "authors": [
-            "om2804 <om2804@mail.ru>"
-        ],
-        "keywords": [
-            "ioBroker",
-            "adb",
-            "android"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "main.js",
-        "icon": "adb.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/om2804/ioBroker.adb/master/admin/adb.png",
-        "readme": "https://github.com/om2804/ioBroker.adb/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "hardware",
-		"connectionType": "local",
-		"dataSource": "push",
-        "compact": true,
-        "materialize": true,
-        "dependencies": [
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ]
+  "common": {
+    "name": "adb",
+    "version": "0.0.7",
+    "news": {
+      "0.0.7": {
+        "en": "Add meta object for fix screenshot.",
+        "de": "Fügen Sie Meta-Objekt für Fix Screenshot hinzu",
+        "ru": "Добавлен meta-объект для исправдления скриншота.",
+        "pt": "Adicionar meta-objeto para corrigir a captura de tela",
+        "nl": "Voeg meta-object toe",
+        "fr": "Ajouter meta-object pour fixer screenshot",
+        "it": "Aggiungi meta-oggetti per fissare screenshot",
+        "es": "Añadir meta-objeto para fijar captura de pantalla",
+        "pl": "Add metaobject for fix screenshot screenshot",
+        "zh-cn": "九. 包围屏幕的代用品"
+      },
+      "0.0.6": {
+        "en": "Add delete and up/down buttons in device list.\nReplace dependency 'adbkit'. Active development has been moved to DeviceFarmer organisation.\nAdd wait for device after connection.",
+        "de": "Hinzufügen von Lösch- und Auf-/Abschalttasten in der Geräteliste.\nErsetzen Abhängigkeit adbkit. Die aktive Entwicklung wurde in die Organisation von DeviceFarmer verschoben.\nAdd warte nach der Verbindung auf das Gerät.",
+        "ru": "Добавлены кнопки удаления и сортировки в списке устройств.\nЗаменена зависимость adbkit. Активное развитие было перенесено в организацию DeviceFarmer.\nДобавлено ождидания полного подключения устроства.",
+        "pt": "Adicione botões de exclusão e up/down na lista de dispositivos.\nReplace adbkit de dependência. O desenvolvimento ativo foi movido para a organização DeviceFarmer.\nAdd esperar pelo dispositivo após a conexão.",
+        "nl": "Verwijder en up/down knoppen in apparaatlijst. Actieve ontwikkeling is verplaatst naar DeviceFarmer organisatie.",
+        "fr": "Ajouter les boutons de suppression et de retrait dans la liste des périphériques.\nReplacer l'adbkit de dépendance. Le développement actif a été déplacé à l'organisation DeviceFarmer.\nAjouter attendre l'appareil après la connexion.",
+        "it": "Aggiungi pulsanti delete and up/down nell'elenco dei dispositivi.\nSostituisci adbkit dipendenza. Lo sviluppo attivo è stato spostato all'organizzazione DeviceFarmer.\nAdd attendere il dispositivo dopo la connessione.",
+        "es": "Añadir botones de borrado y arriba / abajo en la lista de dispositivos.\nReemplazar adbkit dependencia. Desarrollo activo se ha movido a la organización DeviceFarmer.\nAdd espera para el dispositivo después de la conexión.",
+        "pl": "Add delete and up/down buttons in device list.\nReplace dependency adbkit. Prace nad programem zostały przeniesione do DeviceFarmer.\nAdd czekającego na urządzenie po połączeniu.",
+        "zh-cn": "在装置清单中删除和降解/降水、排他性。 积极发展已转移到DeviceFarmer组织,然后再等待装置。."
+      },
+      "0.0.5": {
+        "en": "js-controller dependency upgraded to > 2.0.0",
+        "de": "js-controller-abhängigkeit auf> 2.0.0 aktualisiert",
+        "ru": "зависимость js-controller обновлена до> 2.0.0",
+        "pt": "Dependência do js-controller atualizada para> 2.0.0",
+        "nl": "js-controller afhankelijkheid geüpgraded naar> 2.0.0",
+        "fr": "Dépendance js-controller mise à niveau vers> 2.0.0",
+        "it": "dipendenza js-controller aggiornata a> 2.0.0",
+        "es": "Dependencia js-controller actualizada a> 2.0.0",
+        "pl": "Zależność kontrolera js zaktualizowana do> 2.0.0",
+        "zh-cn": "js-controller依赖关系已升级到> 2.0.0"
+      },
+      "0.0.3": {
+        "en": "fixes ater review",
+        "de": "behebt nach Überprüfung",
+        "ru": "исправления после обзора",
+        "pt": "fixes ater review",
+        "nl": "repareert ater review",
+        "fr": "correction de la révision ater",
+        "it": "correzioni dopo la revisione",
+        "es": "repara una revisión",
+        "pl": "naprawia przegląd ater",
+        "zh-cn": "修复审核"
+      },
+      "0.0.2": {
+        "en": "add commands: start/stopp application, reboot device, take screenshot",
+        "de": "Befehle hinzufügen: Anwendung starten / stoppen, Gerät neu starten, Screenshot machen",
+        "ru": "Добавлены команды: запустить / остановить приложение, перезагрузить устройство, сделать скриншот",
+        "pt": "adicione comandos: inicie / interrompa o aplicativo, reinicie o dispositivo, faça a captura de tela",
+        "nl": "opdrachten toevoegen: applicatie starten / stoppen, apparaat opnieuw opstarten, screenshot maken",
+        "fr": "ajouter des commandes: démarrer / arrêter l'application, redémarrer l'appareil, prendre une capture d'écran",
+        "it": "aggiungi comandi: avvia / interrompi applicazione, riavvia il dispositivo, fai screenshot",
+        "es": "agregar comandos: iniciar / detener la aplicación, reiniciar el dispositivo, tomar captura de pantalla",
+        "pl": "dodaj polecenia: uruchom / zatrzymaj aplikację, uruchom ponownie urządzenie, zrób zrzut ekranu",
+        "zh-cn": "添加命令：启动/停止应用程序，重启设备，截图"
+      },
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "zh-cn": "首次出版"
+      }
     },
-    "native": {
-        "adbHostOption": "localhost",
-        "adbPortOption": "5037",
-        "devices": []
+    "title": "Android Debug Bridge",
+    "titleLang": {
+      "en": "Android Debug Bridge",
+      "de": "Android Debug Bridge",
+      "ru": "Android Debug Bridge",
+      "pt": "Ponte de depuração do Android",
+      "nl": "Android Debug Bridge",
+      "fr": "Pont de débogage Android",
+      "it": "Android Debug Bridge",
+      "es": "Puente de depuración de Android",
+      "pl": "Android Debug Bridge",
+      "zh-cn": "Android调试桥"
     },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-		{
-		  "_id": "",
-		  "type": "meta",
-		  "common": {
-			"name": "Screenshot from device",
-			"type": "meta"
-		  },
-		  "native": {}
-		}
-    ]
+    "desc": {
+      "en": "Android Debug Bridge",
+      "de": "Android Debug Bridge",
+      "ru": "Android Debug Bridge",
+      "pt": "Ponte de depuração do Android",
+      "nl": "Android Debug Bridge",
+      "fr": "Pont de débogage Android",
+      "it": "Android Debug Bridge",
+      "es": "Puente de depuración de Android",
+      "pl": "Android Debug Bridge",
+      "zh-cn": "Android调试桥"
+    },
+    "authors": [
+      "om2804 <om2804@mail.ru>"
+    ],
+    "keywords": [
+      "ioBroker",
+      "adb",
+      "android"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "adb.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/om2804/ioBroker.adb/master/admin/adb.png",
+    "readme": "https://github.com/om2804/ioBroker.adb/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "hardware",
+    "connectionType": "local",
+    "dataSource": "push",
+    "compact": true,
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "adminUI": {
+      "config": "materialize"
+    }
+  },
+  "native": {
+    "adbHostOption": "localhost",
+    "adbPortOption": "5037",
+    "devices": []
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "",
+      "type": "meta",
+      "common": {
+        "name": "Screenshot from device",
+        "type": "meta"
+      },
+      "native": {}
+    }
+  ]
 }
